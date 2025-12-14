@@ -1,0 +1,175 @@
+<mxCell id="title" value="DWD 明细层 (Data Warehouse Detail)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#82b366;" vertex="1" parent="1">
+  <mxGeometry x="150" y="10" width="500" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="subtitle" value="明细粒度数据层，完成数据清洗、标准化、规范化" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="150" y="40" width="500" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose_box" value="核心职责" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="80" width="350" height="170" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose1" value="• 数据清洗：去除脏数据、异常值、重复数据" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose2" value="• 数据标准化：统一编码、统一单位、统一格式" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose3" value="• 维度退化：将常用维度冗余到事实表" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="70" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose4" value="• 业务过程建模：基于业务过程构建事实表" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="90" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose5" value="• 多表关联：将分散的ODS表整合" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="110" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose6" value="• 保持明细粒度：不做聚合汇总" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="130" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="fields_box" value="关键字段 - 事实表" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="410" y="80" width="350" height="170" as="geometry"/>
+</mxCell>
+
+<mxCell id="field1" value="业务主键：order_id, trade_id, log_id" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="field2" value="维度外键：user_id, product_id, shop_id" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="field3" value="度量值：amount, quantity, price" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="70" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="field4" value="时间维度：create_time, pay_time, ds" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="90" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="field5" value="状态字段：order_status, is_valid" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="110" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="field6" value="退化维度：user_name, product_name (冗余)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="130" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean_box" value="数据清洗规则" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="270" width="350" height="150" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean1" value="NULL处理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="20" y="35" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean2" value="格式统一" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="130" y="35" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean3" value="编码转换" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="240" y="35" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean4" value="去重处理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="20" y="90" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean5" value="异常值处理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="130" y="90" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="clean6" value="数据补全" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="clean_box">
+  <mxGeometry x="240" y="90" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_box" value="维度表设计" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="410" y="270" width="350" height="150" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim1" value="用户维度&#10;dim_user" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="20" y="35" width="90" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim2" value="商品维度&#10;dim_product" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="130" y="35" width="90" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim3" value="时间维度&#10;dim_date" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="240" y="35" width="90" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim4" value="地域维度&#10;dim_area" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="20" y="95" width="90" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim5" value="组织维度&#10;dim_org" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="130" y="95" width="90" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim6" value="渠道维度&#10;dim_channel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="dim_box">
+  <mxGeometry x="240" y="95" width="90" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming_box" value="命名规范" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="440" width="350" height="100" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming1" value="事实表：dwd_{业务域}_{业务过程}_{粒度}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming2" value="示例：dwd_trade_order_detail_di" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#666666;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming3" value="维度表：dim_{维度名称}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="70" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="model_box" value="建模方法" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="410" y="440" width="350" height="100" as="geometry"/>
+</mxCell>
+
+<mxCell id="model1" value="星型模型 (Star Schema)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="model_box">
+  <mxGeometry x="20" y="35" width="140" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="model2" value="雪花模型 (Snowflake)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="model_box">
+  <mxGeometry x="180" y="35" width="140" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="best_box" value="最佳实践" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="560" width="720" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="best1" value="✓ 保持最细粒度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="20" y="30" width="100" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="best2" value="✓ 使用代理键" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="135" y="30" width="100" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="best3" value="✓ 维度退化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="250" y="30" width="100" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="best4" value="✓ SCD处理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="365" y="30" width="100" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="best5" value="✓ 一致性维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="480" y="30" width="100" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="best6" value="✓ 数据血缘" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="best_box">
+  <mxGeometry x="595" y="30" width="100" height="25" as="geometry"/>
+</mxCell>

@@ -1,0 +1,143 @@
+<mxCell id="title" value="ODS 贴源层 (Operational Data Store)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#d6b656;" vertex="1" parent="1">
+  <mxGeometry x="150" y="10" width="500" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="subtitle" value="数据仓库的第一层，保持与源系统数据结构一致" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="150" y="40" width="500" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose_box" value="核心职责" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="80" width="350" height="150" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose1" value="• 数据采集：从各业务系统同步原始数据" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose2" value="• 保持原貌：不做业务逻辑处理，保留源数据结构" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose3" value="• 历史追溯：记录数据变更历史，支持问题排查" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="70" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose4" value="• 数据缓冲：解耦上游系统与数仓处理" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="90" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="purpose5" value="• 全量/增量：支持全量快照和增量同步两种模式" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="purpose_box">
+  <mxGeometry x="10" y="110" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="fields_box" value="关键字段" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="410" y="80" width="350" height="150" as="geometry"/>
+</mxCell>
+
+<mxCell id="field_table" value="字段名|说明|重要性&#10;ds|数据日期分区|★★★★★&#10;etl_time|ETL处理时间|★★★★☆&#10;source_table|来源表名|★★★★☆&#10;is_deleted|删除标记|★★★★☆&#10;create_time|源系统创建时间|★★★☆☆&#10;update_time|源系统更新时间|★★★★★" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="fields_box">
+  <mxGeometry x="10" y="30" width="330" height="110" as="geometry"/>
+</mxCell>
+
+<mxCell id="process_box" value="数据处理流程" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="250" width="720" height="120" as="geometry"/>
+</mxCell>
+
+<mxCell id="proc1" value="数据抽取&#10;(Extract)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="process_box">
+  <mxGeometry x="20" y="40" width="100" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="proc2" value="格式转换&#10;(Transform)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="process_box">
+  <mxGeometry x="160" y="40" width="100" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="proc3" value="数据加载&#10;(Load)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="process_box">
+  <mxGeometry x="300" y="40" width="100" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="proc4" value="质量检查&#10;(DQC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="process_box">
+  <mxGeometry x="440" y="40" width="100" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="proc5" value="元数据登记&#10;(Metadata)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="process_box">
+  <mxGeometry x="580" y="40" width="120" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="process_box" source="proc1" target="proc2">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="process_box" source="proc2" target="proc3">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="process_box" source="proc3" target="proc4">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="process_box" source="proc4" target="proc5">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming_box" value="命名规范" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="390" width="350" height="130" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming1" value="表命名：ods_{源系统}_{源表名}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming2" value="示例：ods_crm_customer, ods_erp_order" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#666666;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming3" value="分区策略：按天分区 (ds=YYYYMMDD)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="75" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="naming4" value="存储格式：ORC/Parquet (列式存储)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="naming_box">
+  <mxGeometry x="10" y="100" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="attention_box" value="注意事项" style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="410" y="390" width="350" height="130" as="geometry"/>
+</mxCell>
+
+<mxCell id="att1" value="⚠ 不做任何业务逻辑处理" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="attention_box">
+  <mxGeometry x="10" y="30" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="att2" value="⚠ 保留所有字段，包括冗余字段" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="attention_box">
+  <mxGeometry x="10" y="50" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="att3" value="⚠ 记录数据血缘：来源系统、表、抽取时间" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="attention_box">
+  <mxGeometry x="10" y="70" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="att4" value="⚠ 数据保留周期：通常 90-180 天" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="attention_box">
+  <mxGeometry x="10" y="90" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="att5" value="⚠ 增量同步需记录同步水位线" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="attention_box">
+  <mxGeometry x="10" y="110" width="330" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="sync_box" value="同步策略对比" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="540" width="720" height="80" as="geometry"/>
+</mxCell>
+
+<mxCell id="sync_full" value="全量同步&#10;适用：维度表、小表&#10;频率：T+1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="sync_box">
+  <mxGeometry x="20" y="30" width="150" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="sync_incr" value="增量同步&#10;适用：事实表、大表&#10;频率：小时/分钟级" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="sync_box">
+  <mxGeometry x="200" y="30" width="150" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="sync_cdc" value="CDC实时同步&#10;适用：核心交易表&#10;频率：秒级" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="sync_box">
+  <mxGeometry x="380" y="30" width="150" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="sync_merge" value="Merge合并&#10;适用：需要更新的表&#10;策略：Insert Overwrite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="sync_box">
+  <mxGeometry x="560" y="30" width="150" height="40" as="geometry"/>
+</mxCell>

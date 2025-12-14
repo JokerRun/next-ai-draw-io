@@ -1,0 +1,229 @@
+<mxCell id="lane_user" value="User" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="120" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_chatpanel" value="ChatPanel" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="175" y="40" width="155" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_diagctx" value="DiagramContext" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="345" y="40" width="140" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_drawio_iframe" value="DrawIO iframe" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="500" y="40" width="130" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_backend" value="Backend" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="645" y="40" width="145" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_llm" value="LLM" style="swimlane;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="805" y="40" width="140" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="title" value="Page 2: edit_diagram 编辑流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
+  <mxGeometry x="350" y="5" width="300" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="step1_label" value="Step 1: 用户请求修改" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="75" width="130" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_edit" value="&quot;把标题改成...&quot;&#xa;&quot;修改颜色为...&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="lane_user">
+  <mxGeometry x="10" y="55" width="100" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="chat_receive" value="接收修改请求" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="55" width="135" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step2_label" value="Step 2: 获取当前XML状态" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="150" width="150" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="fetch_current" value="onFetchChart()&#xa;获取当前XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="120" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="export_current" value="exportDiagram&#xa;导出当前状态" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="120" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step3_label" value="Step 3: 发送到Backend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="220" width="140" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="send_edit" value="sendMessage()&#xa;含 currentXml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="190" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="api_edit" value="route.ts&#xa;接收请求" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="190" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step4_label" value="Step 4: LLM分析+生成编辑指令" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="290" width="180" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="build_ctx" value="构建System Messages&#xa;含 Current XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="255" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_analyze" value="分析当前XML&#xa;定位目标元素" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="310" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_gen_edit" value="生成 edit_diagram&#xa;{search, replace}[]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="360" width="120" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="step5_label" value="Step 5: 流式返回Tool Call" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="460" width="160" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="stream_edit" value="流式返回&#xa;edit_diagram tool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="430" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="receive_edit" value="useChat hook&#xa;接收 tool call" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="430" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step6_label" value="Step 6: 执行Search/Replace" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="530" width="160" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="ontoolcall_edit" value="onToolCall()&#xa;edit_diagram handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="495" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="get_cached" value="chartXMLRef.current&#xa;获取缓存XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="545" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="replace_xml" value="replaceXMLParts()&#xa;执行替换" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="600" width="135" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="matching_note" value="匹配策略:&#xa;1. 精确匹配&#xa;2. Trim后匹配&#xa;3. 子串匹配&#xa;4. 字符频率匹配&#xa;5. ID属性匹配&#xa;6. Value属性匹配" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=8;align=left;" vertex="1" parent="1">
+  <mxGeometry x="40" y="600" width="100" height="95" as="geometry"/>
+</mxCell>
+
+<mxCell id="step7_label" value="Step 7: 验证并加载" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="710" width="120" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="validate_edited" value="validateAndFixXml()&#xa;验证编辑结果" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="680" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="load_edited" value="loadDiagram()&#xa;加载编辑后XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="735" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step8_label" value="Step 8: 渲染更新" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="500" y="790" width="120" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="post_edited" value="postMessage&#xa;更新图表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="770" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="render_edited" value="mxGraph 渲染&#xa;显示修改后图形" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="825" width="110" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_see_edit" value="用户看到&#xa;修改后图表" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="lane_user">
+  <mxGeometry x="10" y="820" width="100" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="error_branch" value="匹配失败?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="17.5" y="660" width="120" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="retry_note" value="重试策略:&#xa;1. 调整属性顺序&#xa;2. 扩展上下文&#xa;3. 仅匹配ID前缀&#xa;4. 3次后降级&#xa;   display_diagram" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#f8cecc;strokeColor=#b85450;fontSize=8;align=left;" vertex="1" parent="1">
+  <mxGeometry x="820" y="430" width="110" height="85" as="geometry"/>
+</mxCell>
+
+<mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="user_edit" target="chat_receive">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="chat_receive" target="fetch_current">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="fetch_current" target="export_current">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;" edge="1" parent="1" source="export_current" target="send_edit">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="400" y="175" as="targetPoint"/>
+  </mxGeometry>
+</mxCell>
+
+<mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="send_edit" target="api_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="api_edit" target="build_ctx">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="build_ctx" target="llm_analyze">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="llm_analyze" target="llm_gen_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="llm_gen_edit" target="stream_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="stream_edit" target="receive_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="receive_edit" target="ontoolcall_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="ontoolcall_edit" target="get_cached">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="get_cached" target="replace_xml">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="replace_xml" target="error_branch">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e15" value="成功" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="error_branch" target="validate_edited">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="validate_edited" target="load_edited">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="load_edited" target="post_edited">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="post_edited" target="render_edited">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeColor=#00AA00;strokeWidth=2;" edge="1" parent="1" source="render_edited" target="user_see_edit">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="key_diff" value="edit_diagram 关键差异:&#xa;&#xa;1. 不重新生成整个XML&#xa;2. 基于当前XML做增量修改&#xa;3. 使用 search/replace 模式&#xa;4. 多种匹配策略容错&#xa;5. 失败后可重试或降级" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;" vertex="1" parent="1">
+  <mxGeometry x="820" y="550" width="140" height="110" as="geometry"/>
+</mxCell>

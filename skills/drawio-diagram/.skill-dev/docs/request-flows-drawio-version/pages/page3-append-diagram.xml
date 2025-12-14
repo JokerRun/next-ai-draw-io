@@ -1,0 +1,244 @@
+<mxCell id="lane_user" value="User" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="100" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_chatpanel" value="ChatPanel" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="155" y="40" width="155" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_diagctx" value="DiagramContext" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="325" y="40" width="130" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_drawio" value="DrawIO iframe" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="470" y="40" width="120" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_backend" value="Backend" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="605" y="40" width="130" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_llm" value="LLM" style="swimlane;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="750" y="40" width="130" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_memory" value="Memory" style="swimlane;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="895" y="40" width="110" height="900" as="geometry"/>
+</mxCell>
+
+<mxCell id="title" value="Page 3: append_diagram 续传流程 (处理截断)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
+  <mxGeometry x="300" y="5" width="400" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="phase1" value="Phase 1: 初始 display_diagram 被截断" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#b85450;" vertex="1" parent="1">
+  <mxGeometry x="40" y="75" width="250" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_request" value="用户请求&#xa;复杂图表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="lane_user">
+  <mxGeometry x="5" y="60" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_gen_large" value="LLM生成&#xa;大型XML..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="60" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="stream_partial" value="流式返回&#xa;display_diagram" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="115" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="receive_partial" value="接收 tool call&#xa;(XML被截断)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="115" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="check_complete" value="isMxCellXmlComplete()&#xa;检测: 不完整!" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="7.5" y="170" width="140" height="55" as="geometry"/>
+</mxCell>
+
+<mxCell id="store_partial" value="partialXmlRef&#xa;存储截断XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_memory">
+  <mxGeometry x="10" y="180" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="error_response" value="返回 output-error&#xa;&quot;Output truncated...&#xa;Use append_diagram&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="245" width="135" height="55" as="geometry"/>
+</mxCell>
+
+<mxCell id="phase2" value="Phase 2: LLM 调用 append_diagram 续传" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#82b366;" vertex="1" parent="1">
+  <mxGeometry x="40" y="330" width="280" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_receive_err" value="接收错误信息&#xa;包含截断位置" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="315" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_continue" value="从截断位置&#xa;继续生成XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="370" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_append" value="调用 append_diagram&#xa;{ xml: &quot;续传部分&quot; }" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="425" width="110" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="stream_append" value="流式返回&#xa;append_diagram" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="430" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="receive_append" value="接收 append&#xa;tool call" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="430" width="135" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="phase3" value="Phase 3: 拼接并验证完整性" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#6c8ebf;" vertex="1" parent="1">
+  <mxGeometry x="40" y="500" width="200" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="check_wrapper" value="检查是否包含&#xa;wrapper tags?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="7.5" y="490" width="140" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="merge_xml" value="partialXmlRef +=&#xa;续传XML片段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="560" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="update_partial" value="更新&#xa;partialXmlRef" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_memory">
+  <mxGeometry x="10" y="560" width="90" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="check_complete2" value="isMxCellXmlComplete()&#xa;再次检测" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="7.5" y="620" width="140" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="still_incomplete" value="仍不完整?&#xa;返回错误&#xa;继续调用append" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="690" width="135" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="phase4" value="Phase 4: 完整后渲染" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#00AA00;" vertex="1" parent="1">
+  <mxGeometry x="40" y="755" width="180" height="20" as="geometry"/>
+</mxCell>
+
+<mxCell id="wrap_complete" value="wrapWithMxFile()&#xa;包装完整XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="760" width="135" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="validate_complete" value="validateAndFixXml()&#xa;验证完整XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="760" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="load_complete" value="loadDiagram()&#xa;加载到DrawIO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="815" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="render_complete" value="mxGraph渲染&#xa;显示完整图表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio">
+  <mxGeometry x="10" y="815" width="100" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_see_complete" value="用户看到&#xa;完整图表" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="lane_user">
+  <mxGeometry x="5" y="810" width="90" height="55" as="geometry"/>
+</mxCell>
+
+<mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="user_request" target="llm_gen_large">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;" edge="1" parent="1" source="llm_gen_large" target="stream_partial">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;" edge="1" parent="1" source="stream_partial" target="receive_partial">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="receive_partial" target="check_complete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#d79b00;" edge="1" parent="1" source="check_complete" target="store_partial">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="check_complete" target="error_response">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="error_response" target="llm_receive_err">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="llm_receive_err" target="llm_continue">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="llm_continue" target="llm_append">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="llm_append" target="stream_append">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="stream_append" target="receive_append">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="receive_append" target="check_wrapper">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e13" value="无wrapper" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="check_wrapper" target="merge_xml">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#d79b00;" edge="1" parent="1" source="merge_xml" target="update_partial">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="merge_xml" target="check_complete2">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e16" value="不完整" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0.5;exitY=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="check_complete2" target="still_incomplete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e17" value="完整" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0.5;exitY=1;strokeColor=#00AA00;strokeWidth=2;" edge="1" parent="1" source="check_complete2" target="wrap_complete">
+  <mxGeometry relative="1" as="geometry">
+    <Array as="points">
+      <mxPoint x="233" y="710"/>
+      <mxPoint x="233" y="780"/>
+    </Array>
+  </mxGeometry>
+</mxCell>
+
+<mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="wrap_complete" target="validate_complete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="validate_complete" target="load_complete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="load_complete" target="render_complete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeColor=#00AA00;strokeWidth=2;" edge="1" parent="1" source="render_complete" target="user_see_complete">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="loop_note" value="循环调用&#xa;append_diagram&#xa;直到完整" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=8;" vertex="1" parent="1">
+  <mxGeometry x="40" y="690" width="80" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_loop" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;dashed=1;strokeColor=#d6b656;curved=1;" edge="1" parent="1" source="still_incomplete" target="llm_continue">
+  <mxGeometry relative="1" as="geometry">
+    <Array as="points">
+      <mxPoint x="100" y="713"/>
+      <mxPoint x="100" y="750"/>
+      <mxPoint x="920" y="750"/>
+      <mxPoint x="920" y="300"/>
+      <mxPoint x="815" y="300"/>
+    </Array>
+  </mxGeometry>
+</mxCell>
+
+<mxCell id="key_points" value="append_diagram 关键点:&#xa;&#xa;1. 用于处理maxOutputTokens截断&#xa;2. partialXmlRef 存储累积XML&#xa;3. 不断追加直到XML完整&#xa;4. 禁止包含wrapper tags&#xa;5. 必须从截断位置精确续传" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;" vertex="1" parent="1">
+  <mxGeometry x="750" y="510" width="160" height="115" as="geometry"/>
+</mxCell>

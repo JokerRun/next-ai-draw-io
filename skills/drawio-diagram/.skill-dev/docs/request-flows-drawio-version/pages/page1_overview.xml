@@ -1,0 +1,159 @@
+<mxCell id="title" value="阿里云 OneData 数据仓库分层架构" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="200" y="10" width="400" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="source_layer" value="数据源层" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;horizontal=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="50" width="720" height="70" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_db" value="业务数据库" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="20" y="30" width="100" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_log" value="日志数据" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="140" y="30" width="100" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_file" value="文件数据" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="260" y="30" width="100" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_api" value="API接口" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="380" y="30" width="100" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_mq" value="消息队列" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="500" y="30" width="100" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="src_third" value="第三方数据" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="source_layer">
+  <mxGeometry x="620" y="30" width="80" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="ods_layer" value="ODS 贴源层 (Operational Data Store)" style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#333333;horizontal=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="140" width="720" height="70" as="geometry"/>
+</mxCell>
+
+<mxCell id="ods_desc" value="保留原始数据，不做清洗转换，按业务系统划分" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#666666;" vertex="1" parent="ods_layer">
+  <mxGeometry x="20" y="30" width="680" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="dwd_layer" value="DWD 明细层 (Data Warehouse Detail)" style="swimlane;startSize=25;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#333333;horizontal=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="230" width="720" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="dwd_fact" value="事实表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="dwd_layer">
+  <mxGeometry x="100" y="35" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dwd_dim" value="维度表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="dwd_layer">
+  <mxGeometry x="300" y="35" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dwd_clean" value="数据清洗/标准化/去重" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="dwd_layer">
+  <mxGeometry x="500" y="35" width="160" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_layer" value="DWS 汇总层 (Data Warehouse Summary)" style="swimlane;startSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#333333;horizontal=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="340" width="720" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_topic1" value="用户主题" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="dws_layer">
+  <mxGeometry x="40" y="35" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_topic2" value="商品主题" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="dws_layer">
+  <mxGeometry x="160" y="35" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_topic3" value="订单主题" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="dws_layer">
+  <mxGeometry x="280" y="35" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_topic4" value="流量主题" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="dws_layer">
+  <mxGeometry x="400" y="35" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="dws_agg" value="轻度汇总/宽表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="dws_layer">
+  <mxGeometry x="560" y="35" width="120" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_layer" value="ADS 应用层 (Application Data Store)" style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#333333;horizontal=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="450" width="720" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_report" value="报表" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="40" y="35" width="80" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_dashboard" value="Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="140" y="35" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_api" value="数据API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="260" y="35" width="80" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_ml" value="机器学习" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="360" y="35" width="80" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_realtime" value="实时大屏" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="460" y="35" width="80" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="ads_push" value="推送服务" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="ads_layer">
+  <mxGeometry x="560" y="35" width="80" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_src_ods" value="数据采集" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" edge="1" parent="1" source="source_layer" target="ods_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_ods_dwd" value="ETL清洗" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1" source="ods_layer" target="dwd_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_dwd_dws" value="汇总计算" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1" source="dwd_layer" target="dws_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_dws_ads" value="应用加工" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="dws_layer" target="ads_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_box" value="公共维度层 (DIM)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+  <mxGeometry x="770" y="230" width="100" height="200" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_time" value="时间维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+  <mxGeometry x="780" y="260" width="80" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_geo" value="地域维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+  <mxGeometry x="780" y="295" width="80" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_user" value="用户维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+  <mxGeometry x="780" y="330" width="80" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_product" value="商品维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+  <mxGeometry x="780" y="365" width="80" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="dim_org" value="组织维度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+  <mxGeometry x="780" y="400" width="80" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_dim_dwd" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;dashed=1;strokeColor=#d79b00;" edge="1" parent="1" source="dim_box" target="dwd_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_dim_dws" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;dashed=1;strokeColor=#d79b00;" edge="1" parent="1" source="dim_box" target="dws_layer">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="legend" value="OneData 核心理念: 统一数据标准 + 统一建模规范 + 统一开发流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="200" y="555" width="400" height="20" as="geometry"/>
+</mxCell>

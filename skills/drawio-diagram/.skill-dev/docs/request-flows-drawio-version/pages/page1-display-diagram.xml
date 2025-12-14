@@ -1,0 +1,307 @@
+<mxCell id="lane_user" value="User" style="swimlane;startSize=30;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="120" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_chatpanel" value="ChatPanel" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="175" y="40" width="145" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_diagctx" value="DiagramContext" style="swimlane;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="335" y="40" width="130" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_drawio_iframe" value="DrawIO iframe" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="480" y="40" width="130" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_backend" value="Backend" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="625" y="40" width="145" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_llm" value="LLM" style="swimlane;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="785" y="40" width="130" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="lane_storage" value="Storage" style="swimlane;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+  <mxGeometry x="930" y="40" width="110" height="1100" as="geometry"/>
+</mxCell>
+
+<mxCell id="title" value="Page 1: display_diagram 完整流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#333333;" vertex="1" parent="1">
+  <mxGeometry x="350" y="5" width="300" height="25" as="geometry"/>
+</mxCell>
+
+<mxCell id="step1_label" value="Step 1: User Input" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="75" width="120" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_input" value="输入请求&#xa;&quot;帮我绘制...&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="lane_user">
+  <mxGeometry x="10" y="55" width="100" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="chat_input" value="ChatInput&#xa;接收输入" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="55" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step2_label" value="Step 2: Export Current XML" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="145" width="150" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="on_fetch_chart" value="onFetchChart()&#xa;请求导出" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="120" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="handle_export" value="handleExport()&#xa;drawioRef.export" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="120" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="iframe_export" value="exportDiagram&#xa;postMessage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="120" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="iframe_return" value="mxGraph导出&#xa;返回XML+SVG" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="175" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="handle_diagram_export" value="handleDiagramExport&#xa;extractDiagramXML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="175" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step3_label" value="Step 3: Format &amp; Snapshot" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="265" width="150" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="format_xml" value="formatXML()&#xa;格式化XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="235" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="save_snapshot" value="xmlSnapshotsRef&#xa;保存快照(内存)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="280" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="localstorage" value="localStorage&#xa;持久化快照" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_storage">
+  <mxGeometry x="10" y="280" width="90" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step4_label" value="Step 4: API Request" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="365" width="120" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="send_request" value="sendMessage()&#xa;POST /api/chat" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="335" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="api_receive" value="route.ts&#xa;接收请求" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="335" width="125" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="step5_label" value="Step 5: Backend Processing" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="425" width="150" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="validate_code" value="验证 access code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="395" width="125" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="build_system" value="构建 System Messages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="435" width="125" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="define_tools" value="定义 Tools" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="475" width="125" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="stream_text" value="streamText()&#xa;调用LLM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="515" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step6_label" value="Step 6: LLM Response" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="600" width="130" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_understand" value="理解意图" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="535" width="110" height="28" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_plan" value="规划布局" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="573" width="110" height="28" as="geometry"/>
+</mxCell>
+
+<mxCell id="llm_generate" value="生成 mxCell XML&#xa;tool: display_diagram" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_llm">
+  <mxGeometry x="10" y="611" width="110" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="step7_label" value="Step 7: Stream Response" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="705" width="140" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="stream_back" value="流式返回&#xa;tool-input-delta" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_backend">
+  <mxGeometry x="10" y="680" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="receive_stream" value="useChat hook&#xa;接收流式响应" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="680" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step8_label" value="Step 8: Tool Call Handler" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="765" width="140" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="ontoolcall" value="onToolCall()&#xa;处理 tool call" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="740" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="check_truncate" value="isMxCellXmlComplete&#xa;检查截断" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="5" y="785" width="135" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="wrap_xml" value="wrapWithMxFile()&#xa;包装完整XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="lane_chatpanel">
+  <mxGeometry x="10" y="845" width="125" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step9_label" value="Step 9: Validate &amp; Load" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="40" y="930" width="140" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="validate_fix" value="validateAndFixXml()&#xa;验证并修复" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="900" width="110" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="load_diagram" value="loadDiagram()&#xa;加载到DrawIO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="lane_diagctx">
+  <mxGeometry x="10" y="950" width="110" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="step10_label" value="Step 10: DrawIO Render" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#666666;" vertex="1" parent="1">
+  <mxGeometry x="480" y="990" width="140" height="18" as="geometry"/>
+</mxCell>
+
+<mxCell id="post_message" value="postMessage&#xa;加载XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="980" width="110" height="35" as="geometry"/>
+</mxCell>
+
+<mxCell id="mxgraph_render" value="mxGraph 渲染&#xa;显示图形" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_drawio_iframe">
+  <mxGeometry x="10" y="1030" width="110" height="40" as="geometry"/>
+</mxCell>
+
+<mxCell id="user_see" value="用户看到&#xa;完成的图表" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="lane_user">
+  <mxGeometry x="10" y="1025" width="100" height="50" as="geometry"/>
+</mxCell>
+
+<mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="user_input" target="chat_input">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="chat_input" target="on_fetch_chart">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="on_fetch_chart" target="handle_export">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="handle_export" target="iframe_export">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="iframe_export" target="iframe_return">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="iframe_return" target="handle_diagram_export">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="handle_diagram_export" target="format_xml">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="format_xml" target="save_snapshot">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;dashed=1;strokeColor=#d79b00;" edge="1" parent="1" source="save_snapshot" target="localstorage">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="save_snapshot" target="send_request">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="send_request" target="api_receive">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="api_receive" target="validate_code">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="validate_code" target="build_system">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="build_system" target="define_tools">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="define_tools" target="stream_text">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="stream_text" target="llm_understand">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="llm_understand" target="llm_plan">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="llm_plan" target="llm_generate">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="llm_generate" target="stream_back">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="stream_back" target="receive_stream">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="receive_stream" target="ontoolcall">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="ontoolcall" target="check_truncate">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e23" value="完整" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0.5;exitY=1;" edge="1" parent="1" source="check_truncate" target="wrap_xml">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="wrap_xml" target="validate_fix">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="validate_fix" target="load_diagram">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="load_diagram" target="post_message">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="post_message" target="mxgraph_render">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;entryX=1;entryY=0.5;strokeColor=#00AA00;strokeWidth=2;" edge="1" parent="1" source="mxgraph_render" target="user_see">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="note_truncate" value="截断时跳转&#xa;append_diagram&#xa;(见 Page 3)" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=8;" vertex="1" parent="1">
+  <mxGeometry x="100" y="810" width="70" height="45" as="geometry"/>
+</mxCell>
+
+<mxCell id="e_truncate" value="截断" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;exitX=0;exitY=0.5;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="check_truncate" target="note_truncate">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
