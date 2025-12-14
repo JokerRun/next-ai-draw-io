@@ -219,7 +219,7 @@ drawio --export --format png --output preview.png diagram.drawio
 | `--page-index 0` | 指定页面 |
 | `--embed-diagram` | 嵌入源图表（可编辑 PNG）|
 
-> **完整参考:** `.skill-dev/DESKTOP_CLI.md`
+> **完整参考:** `references/desktop-cli.md`
 
 ## Workflow
 

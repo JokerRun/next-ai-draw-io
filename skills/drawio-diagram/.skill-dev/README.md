@@ -11,7 +11,6 @@
 ├── SOURCE_MAP.md          # 内容来源追踪 (skill ↔ 源项目)
 ├── SYNC_CHECKLIST.md      # 上游同步指南
 ├── VERSION_LOCK.md        # 版本锁定信息
-├── DESKTOP_CLI.md         # draw.io Desktop CLI 参考
 ├── 1.skill-dev-round1.md  # 第一轮开发记录
 ├── 2.skill-dev-round2.md  # 第二轮开发记录
 ├── scripts/
@@ -22,6 +21,9 @@
 │   └── request-flows-drawio-version/  # drawio 版流程图
 └── output/                # 测试输出文件
 ```
+
+> **注意:** `.skill-dev` 目录不随 skill 分发，仅用于开发维护。
+> CLI 参考文档已移至 `references/desktop-cli.md`（随 skill 分发）。
 
 ---
 
@@ -54,7 +56,7 @@
 drawio --export --format png --output preview.png diagram.drawio
 ```
 
-> 详见 [DESKTOP_CLI.md](./DESKTOP_CLI.md)
+> 详见 `references/desktop-cli.md`（随 skill 分发）
 
 ---
 
