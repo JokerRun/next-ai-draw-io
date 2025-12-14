@@ -36,12 +36,28 @@ const VALID_ENTITIES = new Set(["lt", "gt", "amp", "quot", "apos"])
 /**
  * Check if mxCell XML output is complete (not truncated).
  * Complete XML ends with a self-closing tag (/>) or closing mxCell tag.
+ * Also handles function-calling wrapper tags that may be incorrectly included.
  * @param xml - The XML string to check (can be undefined/null)
  * @returns true if XML appears complete, false if truncated or empty
  */
 export function isMxCellXmlComplete(xml: string | undefined | null): boolean {
-    const trimmed = xml?.trim() || ""
+    let trimmed = xml?.trim() || ""
     if (!trimmed) return false
+
+    // Strip Anthropic function-calling wrapper tags if present
+    // These can leak into tool input due to AI SDK parsing issues
+    // Use loop because tags are nested: </mxCell></mxParameter></invoke>
+    let prev = ""
+    while (prev !== trimmed) {
+        prev = trimmed
+        trimmed = trimmed
+            .replace(/<\/mxParameter>\s*$/i, "")
+            .replace(/<\/invoke>\s*$/i, "")
+            .replace(/<\/antml:parameter>\s*$/i, "")
+            .replace(/<\/antml:invoke>\s*$/i, "")
+            .trim()
+    }
+
     return trimmed.endsWith("/>") || trimmed.endsWith("</mxCell>")
 }
 
@@ -197,6 +213,13 @@ export function convertToLegalXml(xmlString: string): string {
                 },
             )
         }
+
+        // Fix unescaped & characters in attribute values (but not valid entities)
+        // This prevents DOMParser from failing on content like "semantic & missing-step"
+        cellContent = cellContent.replace(
+            /&(?!(?:lt|gt|amp|quot|apos|#[0-9]+|#x[0-9a-fA-F]+);)/g,
+            "&amp;",
+        )
 
         // Indent each line of the matched block for readability.
         const formatted = cellContent
@@ -800,6 +823,8 @@ function checkNestedMxCells(xml: string): string | null {
  * @returns null if valid, error message string if invalid
  */
 export function validateMxCellStructure(xml: string): string | null {
+    console.time("perf:validateMxCellStructure")
+    console.log(`perf:validateMxCellStructure XML size: ${xml.length} bytes`)
     // Size check for performance
     if (xml.length > MAX_XML_SIZE) {
         console.warn(
@@ -809,10 +834,18 @@ export function validateMxCellStructure(xml: string): string | null {
 
     // 0. First use DOM parser to catch syntax errors (most accurate)
     try {
+        console.time("perf:validate-DOMParser")
         const parser = new DOMParser()
         const doc = parser.parseFromString(xml, "text/xml")
+        console.timeEnd("perf:validate-DOMParser")
         const parseError = doc.querySelector("parsererror")
         if (parseError) {
+            const actualError = parseError.textContent || "Unknown parse error"
+            console.log(
+                "[validateMxCellStructure] DOMParser error:",
+                actualError,
+            )
+            console.timeEnd("perf:validateMxCellStructure")
             return `Invalid XML: The XML contains syntax errors (likely unescaped special characters like <, >, & in attribute values). Please escape special characters: use &lt; for <, &gt; for >, &amp; for &, &quot; for ". Regenerate the diagram with properly escaped values.`
         }
 
@@ -821,6 +854,7 @@ export function validateMxCellStructure(xml: string): string | null {
         for (const cell of allCells) {
             if (cell.parentElement?.tagName === "mxCell") {
                 const id = cell.getAttribute("id") || "unknown"
+                console.timeEnd("perf:validateMxCellStructure")
                 return `Invalid XML: Found nested mxCell (id="${id}"). Cells should be siblings, not nested inside other mxCell elements.`
             }
         }
@@ -834,12 +868,18 @@ export function validateMxCellStructure(xml: string): string | null {
 
     // 1. Check for CDATA wrapper (invalid at document root)
     if (/^\s*<!\[CDATA\[/.test(xml)) {
+        console.timeEnd("perf:validateMxCellStructure")
         return "Invalid XML: XML is wrapped in CDATA section - remove <![CDATA[ from start and ]]> from end"
     }
 
     // 2. Check for duplicate structural attributes
+    console.time("perf:checkDuplicateAttributes")
     const dupAttrError = checkDuplicateAttributes(xml)
-    if (dupAttrError) return dupAttrError
+    console.timeEnd("perf:checkDuplicateAttributes")
+    if (dupAttrError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return dupAttrError
+    }
 
     // 3. Check for unescaped < in attribute values
     const attrValuePattern = /=\s*"([^"]*)"/g
@@ -847,44 +887,67 @@ export function validateMxCellStructure(xml: string): string | null {
     while ((attrValMatch = attrValuePattern.exec(xml)) !== null) {
         const value = attrValMatch[1]
         if (/</.test(value) && !/&lt;/.test(value)) {
+            console.timeEnd("perf:validateMxCellStructure")
             return "Invalid XML: Unescaped < character in attribute values. Replace < with &lt;"
         }
     }
 
     // 4. Check for duplicate IDs
+    console.time("perf:checkDuplicateIds")
     const dupIdError = checkDuplicateIds(xml)
-    if (dupIdError) return dupIdError
+    console.timeEnd("perf:checkDuplicateIds")
+    if (dupIdError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return dupIdError
+    }
 
     // 5. Check for tag mismatches
+    console.time("perf:checkTagMismatches")
     const tagMismatchError = checkTagMismatches(xml)
-    if (tagMismatchError) return tagMismatchError
+    console.timeEnd("perf:checkTagMismatches")
+    if (tagMismatchError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return tagMismatchError
+    }
 
     // 6. Check invalid character references
     const charRefError = checkCharacterReferences(xml)
-    if (charRefError) return charRefError
+    if (charRefError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return charRefError
+    }
 
     // 7. Check for invalid comment syntax (-- inside comments)
     const commentPattern = /<!--([\s\S]*?)-->/g
     let commentMatch
     while ((commentMatch = commentPattern.exec(xml)) !== null) {
         if (/--/.test(commentMatch[1])) {
+            console.timeEnd("perf:validateMxCellStructure")
             return "Invalid XML: Comment contains -- (double hyphen) which is not allowed"
         }
     }
 
     // 8. Check for unescaped entity references and invalid entity names
     const entityError = checkEntityReferences(xml)
-    if (entityError) return entityError
+    if (entityError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return entityError
+    }
 
     // 9. Check for empty id attributes on mxCell
     if (/<mxCell[^>]*\sid\s*=\s*["']\s*["'][^>]*>/g.test(xml)) {
+        console.timeEnd("perf:validateMxCellStructure")
         return "Invalid XML: Found mxCell element(s) with empty id attribute"
     }
 
     // 10. Check for nested mxCell tags
     const nestedCellError = checkNestedMxCells(xml)
-    if (nestedCellError) return nestedCellError
+    if (nestedCellError) {
+        console.timeEnd("perf:validateMxCellStructure")
+        return nestedCellError
+    }
 
+    console.timeEnd("perf:validateMxCellStructure")
     return null
 }
 
@@ -1088,10 +1151,54 @@ export function autoFixXml(xml: string): { fixed: string; fixes: string[] } {
     // This handles both opening and closing tags
     const hasCellTags = /<\/?Cell[\s>]/i.test(fixed)
     if (hasCellTags) {
+        console.log("[autoFixXml] Step 8: Found <Cell> tags to fix")
+        const beforeFix = fixed
         fixed = fixed.replace(/<Cell(\s)/gi, "<mxCell$1")
         fixed = fixed.replace(/<Cell>/gi, "<mxCell>")
         fixed = fixed.replace(/<\/Cell>/gi, "</mxCell>")
+        if (beforeFix !== fixed) {
+            console.log("[autoFixXml] Step 8: Fixed <Cell> tags")
+        }
         fixes.push("Fixed <Cell> tags to <mxCell>")
+    }
+
+    // 8b. Remove non-draw.io tags (LLM sometimes includes Claude's function calling XML)
+    // Valid draw.io tags: mxfile, diagram, mxGraphModel, root, mxCell, mxGeometry, mxPoint, Array, Object
+    const validDrawioTags = new Set([
+        "mxfile",
+        "diagram",
+        "mxGraphModel",
+        "root",
+        "mxCell",
+        "mxGeometry",
+        "mxPoint",
+        "Array",
+        "Object",
+        "mxRectangle",
+    ])
+    const foreignTagPattern = /<\/?([a-zA-Z][a-zA-Z0-9_]*)[^>]*>/g
+    let foreignMatch
+    const foreignTags = new Set<string>()
+    while ((foreignMatch = foreignTagPattern.exec(fixed)) !== null) {
+        const tagName = foreignMatch[1]
+        if (!validDrawioTags.has(tagName)) {
+            foreignTags.add(tagName)
+        }
+    }
+    if (foreignTags.size > 0) {
+        console.log(
+            "[autoFixXml] Step 8b: Found foreign tags:",
+            Array.from(foreignTags),
+        )
+        for (const tag of foreignTags) {
+            // Remove opening tags (with or without attributes)
+            fixed = fixed.replace(new RegExp(`<${tag}[^>]*>`, "gi"), "")
+            // Remove closing tags
+            fixed = fixed.replace(new RegExp(`</${tag}>`, "gi"), "")
+        }
+        fixes.push(
+            `Removed foreign tags: ${Array.from(foreignTags).join(", ")}`,
+        )
     }
 
     // 9. Fix common closing tag typos
@@ -1156,6 +1263,98 @@ export function autoFixXml(xml: string): { fixed: string; fixes: string[] } {
             fixes.push(
                 `Closed ${tagsToClose.length} unclosed tag(s): ${tagsToClose.join(", ")}`,
             )
+        }
+    }
+
+    // 10b. Remove extra closing tags (more closes than opens)
+    // Need to properly count self-closing tags (they don't need closing tags)
+    const tagCounts = new Map<
+        string,
+        { opens: number; closes: number; selfClosing: number }
+    >()
+    // Match full tags to detect self-closing by checking if ends with />
+    const fullTagPattern = /<(\/?[a-zA-Z][a-zA-Z0-9]*)[^>]*>/g
+    let tagCountMatch
+    while ((tagCountMatch = fullTagPattern.exec(fixed)) !== null) {
+        const fullMatch = tagCountMatch[0] // e.g., "<mxCell .../>" or "</mxCell>"
+        const tagPart = tagCountMatch[1] // e.g., "mxCell" or "/mxCell"
+        const isClosing = tagPart.startsWith("/")
+        const isSelfClosing = fullMatch.endsWith("/>")
+        const tagName = isClosing ? tagPart.slice(1) : tagPart
+
+        let counts = tagCounts.get(tagName)
+        if (!counts) {
+            counts = { opens: 0, closes: 0, selfClosing: 0 }
+            tagCounts.set(tagName, counts)
+        }
+        if (isClosing) {
+            counts.closes++
+        } else if (isSelfClosing) {
+            counts.selfClosing++
+        } else {
+            counts.opens++
+        }
+    }
+
+    // Log tag counts for debugging
+    for (const [tagName, counts] of tagCounts) {
+        if (
+            tagName === "mxCell" ||
+            tagName === "mxGeometry" ||
+            counts.opens !== counts.closes
+        ) {
+            console.log(
+                `[autoFixXml] Step 10b: ${tagName} - opens: ${counts.opens}, closes: ${counts.closes}, selfClosing: ${counts.selfClosing}`,
+            )
+        }
+    }
+
+    // Find tags with extra closing tags (self-closing tags are balanced, don't need closing)
+    for (const [tagName, counts] of tagCounts) {
+        const extraCloses = counts.closes - counts.opens // Only compare opens vs closes (self-closing are balanced)
+        if (extraCloses > 0) {
+            console.log(
+                `[autoFixXml] Step 10b: ${tagName} has ${counts.opens} opens, ${counts.closes} closes, removing ${extraCloses} extra`,
+            )
+            // Remove extra closing tags from the end
+            let removed = 0
+            const closeTagPattern = new RegExp(`</${tagName}>`, "g")
+            const matches = [...fixed.matchAll(closeTagPattern)]
+            // Remove from the end (last occurrences are likely the extras)
+            for (
+                let i = matches.length - 1;
+                i >= 0 && removed < extraCloses;
+                i--
+            ) {
+                const match = matches[i]
+                const idx = match.index ?? 0
+                fixed = fixed.slice(0, idx) + fixed.slice(idx + match[0].length)
+                removed++
+            }
+            if (removed > 0) {
+                console.log(
+                    `[autoFixXml] Step 10b: Removed ${removed} extra </${tagName}>`,
+                )
+                fixes.push(
+                    `Removed ${removed} extra </${tagName}> closing tag(s)`,
+                )
+            }
+        }
+    }
+
+    // 10c. Remove trailing garbage after last XML tag (e.g., stray backslashes, text)
+    // Find the last valid closing tag or self-closing tag
+    const closingTagPattern = /<\/[a-zA-Z][a-zA-Z0-9]*>|\/>/g
+    let lastValidTagEnd = -1
+    let closingMatch
+    while ((closingMatch = closingTagPattern.exec(fixed)) !== null) {
+        lastValidTagEnd = closingMatch.index + closingMatch[0].length
+    }
+    if (lastValidTagEnd > 0 && lastValidTagEnd < fixed.length) {
+        const trailing = fixed.slice(lastValidTagEnd).trim()
+        if (trailing) {
+            fixed = fixed.slice(0, lastValidTagEnd)
+            fixes.push("Removed trailing garbage after last XML tag")
         }
     }
 
@@ -1368,16 +1567,26 @@ export function validateAndFixXml(xml: string): {
 
     // Try to fix
     const { fixed, fixes } = autoFixXml(xml)
+    console.log("[validateAndFixXml] Fixes applied:", fixes)
 
     // Validate the fixed version
     error = validateMxCellStructure(fixed)
+    if (error) {
+        console.log("[validateAndFixXml] Still invalid after fix:", error)
+    }
 
     if (!error) {
         return { valid: true, error: null, fixed, fixes }
     }
 
-    // Still invalid after fixes
-    return { valid: false, error, fixed: null, fixes }
+    // Still invalid after fixes - but return the partially fixed XML
+    // so we can see what was fixed and what error remains
+    return {
+        valid: false,
+        error,
+        fixed: fixes.length > 0 ? fixed : null,
+        fixes,
+    }
 }
 
 export function extractDiagramXML(xml_svg_string: string): string {

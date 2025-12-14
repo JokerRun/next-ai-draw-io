@@ -40,6 +40,7 @@ interface MessagePart {
     type: string
     state?: string
     toolName?: string
+    input?: { xml?: string; [key: string]: unknown }
     [key: string]: unknown
 }
 
@@ -145,6 +146,7 @@ export default function ChatPanel({
     const [dailyTokenLimit, setDailyTokenLimit] = useState(0)
     const [tpmLimit, setTpmLimit] = useState(0)
     const [showNewChatDialog, setShowNewChatDialog] = useState(false)
+    const [minimalStyle, setMinimalStyle] = useState(false)
 
     // Check config on mount
     useEffect(() => {
@@ -200,6 +202,15 @@ export default function ChatPanel({
     // Persist processed tool call IDs so collapsing the chat doesn't replay old tool outputs
     const processedToolCallsRef = useRef<Set<string>>(new Set())
 
+    // Debounce timeout for localStorage writes (prevents blocking during streaming)
+    const localStorageDebounceRef = useRef<ReturnType<
+        typeof setTimeout
+    > | null>(null)
+    const xmlStorageDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(
+        null,
+    )
+    const LOCAL_STORAGE_DEBOUNCE_MS = 1000 // Save at most once per second
+
     const {
         messages,
         sendMessage,
@@ -222,8 +233,16 @@ export default function ChatPanel({
             if (toolCall.toolName === "display_diagram") {
                 const { xml } = toolCall.input as { xml: string }
 
+                // DEBUG: Log raw input to diagnose false truncation detection
+                console.log(
+                    "[display_diagram] XML ending (last 100 chars):",
+                    xml.slice(-100),
+                )
+                console.log("[display_diagram] XML length:", xml.length)
+
                 // Check if XML is truncated (incomplete mxCell indicates truncated output)
                 const isTruncated = !isMxCellXmlComplete(xml)
+                console.log("[display_diagram] isTruncated:", isTruncated)
 
                 if (isTruncated) {
                     // Store the partial XML for continuation via append_diagram
@@ -504,6 +523,10 @@ Continue from EXACTLY where you stopped.`,
                 | Record<string, unknown>
                 | undefined
 
+            // DEBUG: Log finish reason to diagnose truncation
+            console.log("[onFinish] finishReason:", metadata?.finishReason)
+            console.log("[onFinish] metadata:", metadata)
+
             if (metadata) {
                 // Use Number.isFinite to guard against NaN (typeof NaN === 'number' is true)
                 const inputTokens = Number.isFinite(metadata.inputTokens)
@@ -609,6 +632,10 @@ Continue from EXACTLY where you stopped.`,
             }
         } catch (error) {
             console.error("Failed to restore from localStorage:", error)
+            // On complete failure, clear storage to allow recovery
+            localStorage.removeItem(STORAGE_MESSAGES_KEY)
+            localStorage.removeItem(STORAGE_XML_SNAPSHOTS_KEY)
+            toast.error("Session data was corrupted. Starting fresh.")
         }
     }, [setMessages])
 
@@ -653,32 +680,71 @@ Continue from EXACTLY where you stopped.`,
         }, 500)
     }, [isDrawioReady, onDisplayChart])
 
-    // Save messages to localStorage whenever they change
+    // Save messages to localStorage whenever they change (debounced to prevent blocking during streaming)
     useEffect(() => {
         if (!hasRestoredRef.current) return
-        try {
-            localStorage.setItem(STORAGE_MESSAGES_KEY, JSON.stringify(messages))
-        } catch (error) {
-            console.error("Failed to save messages to localStorage:", error)
+
+        // Clear any pending save
+        if (localStorageDebounceRef.current) {
+            clearTimeout(localStorageDebounceRef.current)
+        }
+
+        // Debounce: save after 1 second of no changes
+        localStorageDebounceRef.current = setTimeout(() => {
+            try {
+                console.time("perf:localStorage-messages")
+                localStorage.setItem(
+                    STORAGE_MESSAGES_KEY,
+                    JSON.stringify(messages),
+                )
+                console.timeEnd("perf:localStorage-messages")
+            } catch (error) {
+                console.error("Failed to save messages to localStorage:", error)
+            }
+        }, LOCAL_STORAGE_DEBOUNCE_MS)
+
+        // Cleanup on unmount
+        return () => {
+            if (localStorageDebounceRef.current) {
+                clearTimeout(localStorageDebounceRef.current)
+            }
         }
     }, [messages])
 
-    // Save diagram XML to localStorage whenever it changes
+    // Save diagram XML to localStorage whenever it changes (debounced)
     useEffect(() => {
         if (!canSaveDiagram) return
-        if (chartXML && chartXML.length > 300) {
+        if (!chartXML || chartXML.length <= 300) return
+
+        // Clear any pending save
+        if (xmlStorageDebounceRef.current) {
+            clearTimeout(xmlStorageDebounceRef.current)
+        }
+
+        // Debounce: save after 1 second of no changes
+        xmlStorageDebounceRef.current = setTimeout(() => {
+            console.time("perf:localStorage-xml")
             localStorage.setItem(STORAGE_DIAGRAM_XML_KEY, chartXML)
+            console.timeEnd("perf:localStorage-xml")
+        }, LOCAL_STORAGE_DEBOUNCE_MS)
+
+        return () => {
+            if (xmlStorageDebounceRef.current) {
+                clearTimeout(xmlStorageDebounceRef.current)
+            }
         }
     }, [chartXML, canSaveDiagram])
 
     // Save XML snapshots to localStorage whenever they change
     const saveXmlSnapshots = useCallback(() => {
         try {
+            console.time("perf:localStorage-snapshots")
             const snapshotsArray = Array.from(xmlSnapshotsRef.current.entries())
             localStorage.setItem(
                 STORAGE_XML_SNAPSHOTS_KEY,
                 JSON.stringify(snapshotsArray),
             )
+            console.timeEnd("perf:localStorage-snapshots")
         } catch (error) {
             console.error(
                 "Failed to save XML snapshots to localStorage:",
@@ -934,6 +1000,9 @@ Continue from EXACTLY where you stopped.`,
                             "x-ai-api-key": config.aiApiKey,
                         }),
                         ...(config.aiModel && { "x-ai-model": config.aiModel }),
+                    }),
+                    ...(minimalStyle && {
+                        "x-minimal-style": "true",
                     }),
                 },
             },
@@ -1250,6 +1319,8 @@ Continue from EXACTLY where you stopped.`,
                     onToggleHistory={setShowHistory}
                     sessionId={sessionId}
                     error={error}
+                    minimalStyle={minimalStyle}
+                    onMinimalStyleChange={setMinimalStyle}
                 />
             </footer>
 
