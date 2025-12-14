@@ -118,7 +118,22 @@ Working examples in `examples/`:
 - **`swimlane.xml`** - Swimlane diagram
 - **`aws-architecture.xml`** - AWS architecture diagram
 
+### Validation Script
 
+Validate generated XML before rendering using CLI:
+
+```bash
+# Validate a file
+npx ts-node scripts/validate-xml.ts diagram.xml
+
+# Validate from stdin
+echo '<mxCell id="2" .../>' | npx ts-node scripts/validate-xml.ts
+
+# JSON output
+npx ts-node scripts/validate-xml.ts -j diagram.xml
+```
+
+Exit codes: 0=valid, 1=invalid, 2=usage error
 
 ## Workflow
 

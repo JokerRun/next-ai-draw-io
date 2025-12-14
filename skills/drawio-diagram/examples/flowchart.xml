@@ -1,12 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-  Example: Basic Flowchart
-  This file shows mxCell elements only - wrapper is added automatically
--->
-<root>
-<mxCell id="0"/>
-<mxCell id="1" parent="0"/>
-
 <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
   <mxGeometry x="200" y="40" width="100" height="60" as="geometry"/>
 </mxCell>
@@ -58,5 +49,3 @@
     </Array>
   </mxGeometry>
 </mxCell>
-
-</root>

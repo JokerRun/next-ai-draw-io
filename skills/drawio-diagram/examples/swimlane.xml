@@ -1,13 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-  Example: Swimlane Diagram
-  Demonstrates swimlanes with steps and cross-lane connections
-  IMPORTANT: All mxCell elements are siblings - edges are NOT nested
--->
-<root>
-<mxCell id="0"/>
-<mxCell id="1" parent="0"/>
-
 <mxCell id="lane_frontend" value="Frontend" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
   <mxGeometry x="40" y="40" width="200" height="300" as="geometry"/>
 </mxCell>
@@ -68,5 +58,3 @@
     </Array>
   </mxGeometry>
 </mxCell>
-
-</root>
