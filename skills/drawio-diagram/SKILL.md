@@ -195,6 +195,32 @@ node scripts/merge-pages.js page1.drawio page2.drawio -o combined.drawio
 | `check-complete.ts` | Check truncation | 0=complete, 1=truncated |
 | `merge-pages.js` | Merge multi-page .drawio | - |
 
+## Export Preview (draw.io Desktop CLI)
+
+直接使用 draw.io 桌面版 CLI 导出图片预览（推荐，无需脚本）：
+
+```bash
+# macOS
+/Applications/draw.io.app/Contents/MacOS/draw.io --export \
+  --format png --scale 2 --output preview.png diagram.drawio
+
+# Linux
+drawio --export --format png --output preview.png diagram.drawio
+```
+
+**常用选项：**
+| 选项 | 说明 |
+|------|------|
+| `--format png\|pdf\|svg\|jpg` | 输出格式 |
+| `--scale 2` | 缩放倍数 |
+| `--border 10` | 边框像素 |
+| `--transparent` | 透明背景 (PNG) |
+| `--all-pages` | 导出所有页 (PDF) |
+| `--page-index 0` | 指定页面 |
+| `--embed-diagram` | 嵌入源图表（可编辑 PNG）|
+
+> **完整参考:** `.skill-dev/DESKTOP_CLI.md`
+
 ## Workflow
 
 1. **Plan layout** - Describe structure in 2-3 sentences to avoid overlapping
