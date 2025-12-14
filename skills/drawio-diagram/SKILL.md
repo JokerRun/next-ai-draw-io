@@ -118,22 +118,34 @@ Working examples in `examples/`:
 - **`swimlane.xml`** - Swimlane diagram
 - **`aws-architecture.xml`** - AWS architecture diagram
 
-### Validation Script
+### CLI Scripts
 
-Validate generated XML before rendering using CLI:
+Utility scripts in `scripts/` for processing draw.io XML:
 
 ```bash
-# Validate a file
-npx ts-node scripts/validate-xml.ts diagram.xml
+# Validate XML structure
+npx tsx scripts/validate-xml.ts diagram.xml
 
-# Validate from stdin
-echo '<mxCell id="2" .../>' | npx ts-node scripts/validate-xml.ts
+# Auto-fix common XML issues
+npx tsx scripts/fix-xml.ts diagram.xml -o fixed.xml
 
-# JSON output
-npx ts-node scripts/validate-xml.ts -j diagram.xml
+# Wrap bare mxCells with full mxFile structure
+npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
+
+# Format/pretty-print XML
+npx tsx scripts/format-xml.ts diagram.xml
+
+# Check if XML is complete (not truncated)
+npx tsx scripts/check-complete.ts diagram.xml
 ```
 
-Exit codes: 0=valid, 1=invalid, 2=usage error
+| Script | Purpose | Exit codes |
+|--------|---------|------------|
+| `validate-xml.ts` | Validate XML structure | 0=valid, 1=invalid |
+| `fix-xml.ts` | Auto-fix common issues | - |
+| `wrap-xml.ts` | Add mxFile wrapper | - |
+| `format-xml.ts` | Pretty-print XML | - |
+| `check-complete.ts` | Check truncation | 0=complete, 1=truncated |
 
 ## Workflow
 
