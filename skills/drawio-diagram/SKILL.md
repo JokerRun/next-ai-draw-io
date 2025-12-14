@@ -146,10 +146,19 @@ Working examples in `examples/`:
 
 ### CLI Scripts
 
-Complete CLI toolchain in `scripts/` for draw.io XML processing:
+Complete CLI toolchain in `scripts/` for draw.io XML processing.
+
+> **Detailed documentation:** See `references/cli-scripts.md` for full usage guide.
 
 ```bash
-# === Core Operations ===
+# === Core Operations (Recommended) ===
+# Wrap with built-in validation (blocks invalid XML)
+node scripts/wrap-xml.js cells.xml -o diagram.drawio
+
+# Export to PNG for preview
+node scripts/export-png.js diagram.drawio -o preview.png
+
+# === Editing ===
 # Edit existing diagram (search/replace)
 npx tsx scripts/edit-xml.ts diagram.xml -s "old" -r "new" -o updated.xml
 
@@ -163,25 +172,28 @@ npx tsx scripts/validate-xml.ts diagram.xml
 # Auto-fix common XML issues
 npx tsx scripts/fix-xml.ts diagram.xml -o fixed.xml
 
-# Wrap bare mxCells with full mxFile structure
-npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
-
 # Format/pretty-print XML
 npx tsx scripts/format-xml.ts diagram.xml
 
 # Check if XML is complete (not truncated)
 npx tsx scripts/check-complete.ts diagram.xml
+
+# Merge multiple pages
+node scripts/merge-pages.js page1.drawio page2.drawio -o combined.drawio
 ```
 
 | Script | Purpose | Exit codes |
 |--------|---------|------------|
+| `wrap-xml.js` | Wrap + validate (recommended) | 0=success, 1=validation failed |
+| `export-png.js` | Export PNG/PDF/SVG | 0=success, 1=failed |
 | `edit-xml.ts` | Search/replace editing | 0=all success, 1=some failed |
 | `append-xml.ts` | Append/merge fragments | - |
 | `validate-xml.ts` | Validate XML structure | 0=valid, 1=invalid |
 | `fix-xml.ts` | Auto-fix common issues | - |
-| `wrap-xml.ts` | Add mxFile wrapper | - |
+| `wrap-xml.ts` | Add mxFile wrapper (no validation) | - |
 | `format-xml.ts` | Pretty-print XML | - |
 | `check-complete.ts` | Check truncation | 0=complete, 1=truncated |
+| `merge-pages.js` | Merge multi-page .drawio | - |
 
 ## Workflow
 
