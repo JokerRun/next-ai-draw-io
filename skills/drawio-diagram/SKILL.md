@@ -1,6 +1,6 @@
 ---
 name: drawio-diagram
-description: This skill should be used when the user asks to "create a draw.io diagram", "generate flowchart XML", "create architecture diagram", "draw a sequence diagram", "make a swimlane diagram", "generate mxCell XML", or needs to generate/edit draw.io XML programmatically. Provides tools, validation rules, and best practices for creating professional diagrams.
+description: This skill should be used when the user asks to "create a draw.io diagram", "generate flowchart XML", "create architecture diagram", "draw a sequence diagram", "make a swimlane diagram", "generate mxCell XML", "draw a flowchart", "create ER diagram", "AWS architecture diagram", "GCP architecture", "Azure diagram", or needs to generate/edit draw.io XML programmatically. Provides tools, validation rules, and best practices for creating professional diagrams.
 version: 0.1.0
 ---
 
@@ -118,9 +118,7 @@ Working examples in `examples/`:
 - **`swimlane.xml`** - Swimlane diagram
 - **`aws-architecture.xml`** - AWS architecture diagram
 
-### Validation Script
 
-Use `scripts/validate-xml.ts` to validate generated XML before rendering.
 
 ## Workflow
 

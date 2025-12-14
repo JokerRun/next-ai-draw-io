@@ -8,22 +8,18 @@
 <mxCell id="0"/>
 <mxCell id="1" parent="0"/>
 
-<!-- Swimlane: Frontend -->
 <mxCell id="lane_frontend" value="Frontend" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
   <mxGeometry x="40" y="40" width="200" height="300" as="geometry"/>
 </mxCell>
 
-<!-- Swimlane: Backend -->
 <mxCell id="lane_backend" value="Backend" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
   <mxGeometry x="280" y="40" width="200" height="300" as="geometry"/>
 </mxCell>
 
-<!-- Swimlane: Database -->
 <mxCell id="lane_db" value="Database" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
   <mxGeometry x="520" y="40" width="200" height="300" as="geometry"/>
 </mxCell>
 
-<!-- Frontend Steps -->
 <mxCell id="fe_step1" value="User Input" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="lane_frontend">
   <mxGeometry x="20" y="60" width="160" height="40" as="geometry"/>
 </mxCell>
@@ -36,7 +32,6 @@
   <mxGeometry x="20" y="230" width="160" height="40" as="geometry"/>
 </mxCell>
 
-<!-- Backend Steps -->
 <mxCell id="be_step1" value="API Request" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="lane_backend">
   <mxGeometry x="20" y="130" width="160" height="40" as="geometry"/>
 </mxCell>
@@ -45,12 +40,10 @@
   <mxGeometry x="20" y="200" width="160" height="40" as="geometry"/>
 </mxCell>
 
-<!-- Database Steps -->
 <mxCell id="db_step1" value="Query Data" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="lane_db">
   <mxGeometry x="20" y="200" width="160" height="40" as="geometry"/>
 </mxCell>
 
-<!-- Cross-lane Edges (siblings, NOT nested) -->
 <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;endArrow=classic;" edge="1" parent="1" source="fe_step1" target="fe_step2">
   <mxGeometry relative="1" as="geometry"/>
 </mxCell>
