@@ -24,42 +24,68 @@ Generate ONLY mxCell elements - wrapper tags and root cells are added automatica
 </mxCell>
 ```
 
-## Core Tools
+## Core Operations
 
-### 1. display_diagram
+This skill provides three core operations for diagram manipulation, available as CLI scripts:
 
-Display a NEW diagram. Use when creating from scratch or major restructuring.
+### 1. Create/Display Diagram
 
-**Input:** `{ xml: string }` - mxCell elements only (no wrapper tags)
+Create a new diagram from bare mxCell elements.
+
+```bash
+# Wrap mxCells and create .drawio file
+npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
+
+# Validate before creating
+npx tsx scripts/validate-xml.ts cells.xml && npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
+```
 
 **When to use:**
-- Creating new diagrams
+- Creating new diagrams from scratch
 - Major structural changes
-- Current diagram XML is empty
+- Regenerating entire diagram
 
-### 2. edit_diagram
+### 2. Edit Diagram
 
-Edit specific parts of EXISTING diagram using search/replace.
+Edit specific parts of existing diagram using search/replace patterns.
 
-**Input:** `{ edits: Array<{search: string, replace: string}> }`
+```bash
+# Single edit
+npx tsx scripts/edit-xml.ts diagram.xml -s '<mxCell id="2"...' -r '<mxCell id="2" value="New"...'
 
-**Critical rules:**
-- Copy search patterns EXACTLY from current XML (attribute order matters!)
-- Include element's id attribute for unique targeting
-- Include complete elements (mxCell + mxGeometry)
+# Multiple edits (JSON)
+npx tsx scripts/edit-xml.ts diagram.xml --edits '[{"search":"old","replace":"new"}]' -o updated.xml
+```
+
+**Matching strategies (tried in order):**
+1. Exact match
+2. Trimmed match (ignoring whitespace)
+3. Substring match
+4. Character frequency match (attribute-order agnostic)
+5. Match by mxCell id attribute
+6. Match by value attribute
 
 **When to use:**
 - Small modifications
-- Adding/removing elements
 - Changing text/colors/positions
+- Adding/removing specific elements
 
-### 3. append_diagram
+### 3. Append/Continue Diagram
 
-Continue generating when display_diagram was truncated.
+Append mxCell elements to existing diagram (for truncated output or additions).
 
-**Input:** `{ xml: string }` - Continuation fragment (NO wrapper tags)
+```bash
+# Append truncated continuation
+npx tsx scripts/append-xml.ts base.xml fragment.xml -o complete.xml
 
-**When to use:** Only after display_diagram truncation error.
+# Smart merge with duplicate ID handling
+npx tsx scripts/append-xml.ts base.xml additions.xml --merge -o merged.xml
+```
+
+**When to use:**
+- Continuing truncated LLM output
+- Merging diagram fragments
+- Adding new elements to existing diagram
 
 ## Validation Rules (CRITICAL)
 
@@ -120,9 +146,17 @@ Working examples in `examples/`:
 
 ### CLI Scripts
 
-Utility scripts in `scripts/` for processing draw.io XML:
+Complete CLI toolchain in `scripts/` for draw.io XML processing:
 
 ```bash
+# === Core Operations ===
+# Edit existing diagram (search/replace)
+npx tsx scripts/edit-xml.ts diagram.xml -s "old" -r "new" -o updated.xml
+
+# Append/merge fragments
+npx tsx scripts/append-xml.ts base.xml fragment.xml -o merged.xml
+
+# === Utilities ===
 # Validate XML structure
 npx tsx scripts/validate-xml.ts diagram.xml
 
@@ -141,6 +175,8 @@ npx tsx scripts/check-complete.ts diagram.xml
 
 | Script | Purpose | Exit codes |
 |--------|---------|------------|
+| `edit-xml.ts` | Search/replace editing | 0=all success, 1=some failed |
+| `append-xml.ts` | Append/merge fragments | - |
 | `validate-xml.ts` | Validate XML structure | 0=valid, 1=invalid |
 | `fix-xml.ts` | Auto-fix common issues | - |
 | `wrap-xml.ts` | Add mxFile wrapper | - |
