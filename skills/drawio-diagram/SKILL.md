@@ -1,7 +1,7 @@
 ---
 name: drawio-diagram
-description: This skill should be used when the user asks to "create a draw.io diagram", "generate flowchart XML", "create architecture diagram", "draw a sequence diagram", "make a swimlane diagram", "generate mxCell XML", "draw a flowchart", "create ER diagram", "AWS architecture diagram", "GCP architecture", "Azure diagram", or needs to generate/edit draw.io XML programmatically. Provides tools, validation rules, and best practices for creating professional diagrams.
-version: 0.1.0
+description: This skill should be used when the user asks to "create a draw.io diagram", "generate flowchart XML", "create architecture diagram", "draw a sequence diagram", "make a swimlane diagram", "generate mxCell XML", "draw a flowchart", "create ER diagram", "AWS architecture diagram", "GCP architecture", "Azure diagram", "edit diagram", "modify flowchart", "update architecture", "export diagram to PNG", "preview diagram", "multi-page diagram", or needs to generate/edit draw.io XML programmatically. Provides tools, validation rules, and best practices for creating professional diagrams.
+version: 0.2.0
 ---
 
 # Draw.io Diagram Generation Skill
@@ -24,6 +24,49 @@ Generate ONLY mxCell elements - wrapper tags and root cells are added automatica
 </mxCell>
 ```
 
+## End-to-End Workflow
+
+### Create New Diagram
+
+```bash
+# Step 1: Generate mxCell XML (Claude generates and saves to cells.xml)
+
+# Step 2: Wrap with validation (blocks invalid XML, creates .drawio file)
+node scripts/wrap-xml.js cells.xml -o diagram.drawio
+
+# Step 3: Export preview (requires draw.io desktop installed)
+/Applications/draw.io.app/Contents/MacOS/draw.io --export \
+  --format png --scale 2 --output preview.png diagram.drawio
+```
+
+### Edit Existing Diagram
+
+```bash
+# Step 1: Make targeted edits
+npx tsx scripts/edit-xml.ts diagram.drawio -s "old text" -r "new text"
+
+# Step 2: Validate changes
+npx tsx scripts/validate-xml.ts diagram.drawio
+
+# Step 3: Re-export preview
+/Applications/draw.io.app/Contents/MacOS/draw.io --export \
+  --format png --scale 2 --output preview.png diagram.drawio
+```
+
+### Handle Truncated Output
+
+```bash
+# Step 1: Check if output is complete
+npx tsx scripts/check-complete.ts output.xml
+# Exit code 1 = truncated
+
+# Step 2: Generate continuation and append
+npx tsx scripts/append-xml.ts base.xml continuation.xml -o complete.xml
+
+# Step 3: Wrap and export
+node scripts/wrap-xml.js complete.xml -o diagram.drawio
+```
+
 ## Core Operations
 
 This skill provides three core operations for diagram manipulation, available as CLI scripts:
@@ -33,11 +76,8 @@ This skill provides three core operations for diagram manipulation, available as
 Create a new diagram from bare mxCell elements.
 
 ```bash
-# Wrap mxCells and create .drawio file
-npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
-
-# Validate before creating
-npx tsx scripts/validate-xml.ts cells.xml && npx tsx scripts/wrap-xml.ts cells.xml -o diagram.drawio
+# Wrap mxCells and create .drawio file (with built-in validation)
+node scripts/wrap-xml.js cells.xml -o diagram.drawio
 ```
 
 **When to use:**
@@ -190,14 +230,13 @@ node scripts/merge-pages.js page1.drawio page2.drawio -o combined.drawio
 | `append-xml.ts` | Append/merge fragments | - |
 | `validate-xml.ts` | Validate XML structure | 0=valid, 1=invalid |
 | `fix-xml.ts` | Auto-fix common issues | - |
-| `wrap-xml.ts` | Add mxFile wrapper (no validation) | - |
 | `format-xml.ts` | Pretty-print XML | - |
 | `check-complete.ts` | Check truncation | 0=complete, 1=truncated |
 | `merge-pages.js` | Merge multi-page .drawio | - |
 
 ## Export Preview (draw.io Desktop CLI)
 
-直接使用 draw.io 桌面版 CLI 导出图片预览（推荐，无需脚本）：
+Export diagrams to PNG/PDF using draw.io desktop CLI (recommended, no script needed):
 
 ```bash
 # macOS
@@ -208,25 +247,18 @@ node scripts/merge-pages.js page1.drawio page2.drawio -o combined.drawio
 drawio --export --format png --output preview.png diagram.drawio
 ```
 
-**常用选项：**
-| 选项 | 说明 |
-|------|------|
-| `--format png\|pdf\|svg\|jpg` | 输出格式 |
-| `--scale 2` | 缩放倍数 |
-| `--border 10` | 边框像素 |
-| `--transparent` | 透明背景 (PNG) |
-| `--all-pages` | 导出所有页 (PDF) |
-| `--page-index 0` | 指定页面 |
-| `--embed-diagram` | 嵌入源图表（可编辑 PNG）|
+**Common options:**
+| Option | Description |
+|--------|-------------|
+| `--format png\|pdf\|svg\|jpg` | Output format |
+| `--scale 2` | Scale factor |
+| `--border 10` | Border in pixels |
+| `--transparent` | Transparent background (PNG) |
+| `--all-pages` | Export all pages (PDF) |
+| `--page-index 0` | Specific page |
+| `--embed-diagram` | Embed source (editable PNG) |
 
-> **完整参考:** `references/desktop-cli.md`
-
-## Workflow
-
-1. **Plan layout** - Describe structure in 2-3 sentences to avoid overlapping
-2. **Generate XML** - Use display_diagram with mxCell elements only
-3. **Validate** - Check against validation rules
-4. **Iterate** - Use edit_diagram for refinements
+> **Full reference:** `references/desktop-cli.md`
 
 ## Error Recovery
 
